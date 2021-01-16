@@ -1,6 +1,5 @@
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import numpy as np
-import pandas as pd
 
 
 def processing(train_data, test_data):
@@ -19,117 +18,25 @@ def processing(train_data, test_data):
     # Imputing missing data, and encoding some categorical data with label encoder and one hot encoder
 
     # Drop missing data over 80%
-    train_data.drop(['PoolQC'], axis=1)
-    train_data.drop(['MiscFeature'], axis=1)
-    train_data.drop(['Alley'], axis=1)
-    train_data.drop(['Fence'], axis=1)
+    for col in ('PoolQC', 'MiscFeature', 'Alley', 'Fence'):
+        train_data.drop([col], axis=1)
+        test_data.drop([col], axis=1)
 
-    test_data.drop(['PoolQC'], axis=1)
-    test_data.drop(['MiscFeature'], axis=1)
-    test_data.drop(['Alley'], axis=1)
-    test_data.drop(['Fence'], axis=1)
-
-    train_data["FireplaceQu"] = train_data["FireplaceQu"].fillna("None")
-    train_data['FireplaceQu'] = label_encoder.fit_transform(train_data['FireplaceQu'])
-    test_data["FireplaceQu"] = test_data["FireplaceQu"].fillna("None")
-    test_data['FireplaceQu'] = label_encoder.fit_transform(test_data['FireplaceQu'])
-
-    for col in ('GarageType', 'GarageFinish', 'GarageQual', 'GarageCond'):
+    for col in ('GarageType', 'GarageFinish', 'GarageQual', 'GarageCond', 'FireplaceQu', 'BsmtExposure', 'BsmtFinType1',
+                'BsmtFinType2', 'BsmtCond', 'BsmtQual', 'MasVnrType', 'Electrical', 'SaleType', 'MSZoning', 'Utilities',
+                'Functional', 'Exterior2nd', 'Exterior1st', 'KitchenQual'):
         train_data[col] = train_data[col].fillna('None')
         train_data[col] = label_encoder.fit_transform(train_data[col])
         test_data[col] = test_data[col].fillna('None')
         test_data[col] = label_encoder.fit_transform(test_data[col])
 
-    train_data["BsmtExposure"] = train_data["BsmtExposure"].fillna("None")
-    train_data['BsmtExposure'] = label_encoder.fit_transform(train_data['BsmtExposure'])
-    test_data["BsmtExposure"] = test_data["BsmtExposure"].fillna("None")
-    test_data['BsmtExposure'] = label_encoder.fit_transform(test_data['BsmtExposure'])
-
-    train_data["BsmtFinType1"] = train_data["BsmtFinType1"].fillna("None")
-    train_data['BsmtFinType1'] = label_encoder.fit_transform(train_data['BsmtFinType1'])
-    test_data["BsmtFinType1"] = test_data["BsmtFinType1"].fillna("None")
-    test_data['BsmtFinType1'] = label_encoder.fit_transform(test_data['BsmtFinType1'])
-
-    train_data["BsmtFinType2"] = train_data["BsmtFinType2"].fillna("None")
-    train_data['BsmtFinType2'] = label_encoder.fit_transform(train_data['BsmtFinType2'])
-    test_data["BsmtFinType2"] = test_data["BsmtFinType2"].fillna("None")
-    test_data['BsmtFinType2'] = label_encoder.fit_transform(test_data['BsmtFinType2'])
-
-    train_data["BsmtCond"] = train_data["BsmtCond"].fillna("None")
-    train_data['BsmtCond'] = label_encoder.fit_transform(train_data['BsmtCond'])
-    test_data["BsmtCond"] = test_data["BsmtCond"].fillna("None")
-    test_data['BsmtCond'] = label_encoder.fit_transform(test_data['BsmtCond'])
-
-    train_data["BsmtQual"] = train_data["BsmtQual"].fillna("None")
-    train_data['BsmtQual'] = label_encoder.fit_transform(train_data['BsmtQual'])
-    test_data["BsmtQual"] = test_data["BsmtQual"].fillna("None")
-    test_data['BsmtQual'] = label_encoder.fit_transform(test_data['BsmtQual'])
-
-    train_data["MasVnrType"] = train_data["MasVnrType"].fillna("None")
-    train_data['MasVnrType'] = label_encoder.fit_transform(train_data['MasVnrType'])
-    test_data["MasVnrType"] = test_data["MasVnrType"].fillna("None")
-    test_data['MasVnrType'] = label_encoder.fit_transform(test_data['MasVnrType'])
-
-    train_data["Electrical"] = train_data["Electrical"].fillna("None")
-    train_data['Electrical'] = label_encoder.fit_transform(train_data['Electrical'])
-    test_data["Electrical"] = test_data["Electrical"].fillna("None")
-    test_data['Electrical'] = label_encoder.fit_transform(test_data['Electrical'])
-
-    train_data["SaleType"] = train_data["SaleType"].fillna("None")
-    train_data['SaleType'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['SaleType']]).toarray())
-    test_data['SaleType'].replace(to_replace=np.nan, value="None", inplace=True)
-    test_data['SaleType'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['SaleType']]).toarray())
-
-    test_data['MSZoning'] = test_data['MSZoning'].fillna('None')
-    test_data['MSZoning'] = label_encoder.fit_transform(test_data['MSZoning'])
-    train_data['MSZoning'] = label_encoder.fit_transform(train_data['MSZoning'])
-
-    test_data['Utilities'] = test_data['Utilities'].fillna(test_data['Utilities'].mode()[0])
-    test_data['Utilities'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Utilities']]).toarray())
-    train_data['Utilities'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Utilities']]).toarray())
-
-    test_data['Functional'] = test_data['Functional'].fillna(test_data['Functional'].mode()[0])
-    test_data['Functional'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Functional']]).toarray())
-    train_data['Functional'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Functional']]).toarray())
-
-    test_data['Exterior2nd'] = test_data['Exterior2nd'].fillna(test_data['Exterior2nd'].mode()[0])
-    test_data['Exterior2nd'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Exterior2nd']]).toarray())
-    train_data['Exterior2nd'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Exterior2nd']]).toarray())
-
-    test_data['Exterior1st'] = test_data['Exterior1st'].fillna(test_data['Exterior1st'].mode()[0])
-    test_data['Exterior1st'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Exterior1st']]).toarray())
-    train_data['Exterior1st'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Exterior1st']]).toarray())
-
-    test_data["KitchenQual"] = test_data["KitchenQual"].fillna("None")
-    test_data['KitchenQual'] = label_encoder.fit_transform(test_data['KitchenQual'])
-    train_data['KitchenQual'] = label_encoder.fit_transform(train_data['KitchenQual'])
-
-    train_data['CentralAir'] = label_encoder.fit_transform(train_data['CentralAir'])
-    test_data['CentralAir'] = label_encoder.fit_transform(test_data['CentralAir'])
-
-    train_data['Electrical'] = label_encoder.fit_transform(train_data['Electrical'])
-    test_data['Electrical'] = label_encoder.fit_transform(test_data['Electrical'])
-
-    train_data['HeatingQC'] = label_encoder.fit_transform(train_data['HeatingQC'])
-    test_data['HeatingQC'] = label_encoder.fit_transform(test_data['HeatingQC'])
-
-    train_data['Neighborhood'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Neighborhood']]).toarray())
-    test_data['Neighborhood'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Neighborhood']]).toarray())
-
-    train_data['Heating'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['Heating']]).toarray())
-    test_data['Heating'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['Heating']]).toarray())
-
-    train_data['ExterQual'] = label_encoder.fit_transform(train_data['ExterQual'])
-    test_data['ExterQual'] = label_encoder.fit_transform(test_data['ExterQual'])
-
-    train_data['SaleCondition'] = pd.DataFrame(one_hot_encoder.fit_transform(train_data[['SaleCondition']]).toarray())
-    test_data['SaleCondition'] = pd.DataFrame(one_hot_encoder.fit_transform(test_data[['SaleCondition']]).toarray())
-
-    train_data['Street'] = label_encoder.fit_transform(train_data['Street'])
-    test_data['Street'] = label_encoder.fit_transform(test_data['Street'])
-
-    train_data['LotShape'] = label_encoder.fit_transform(train_data['LotShape'])
-    test_data['LotShape'] = label_encoder.fit_transform(test_data['LotShape'])
+    for col in (
+            'CentralAir', 'Electrical', 'HeatingQC', 'Neighborhood', 'Heating', 'ExterQual', 'ExterCond',
+            'SaleCondition', 'Street',
+            'LotShape', 'LotConfig', 'LandSlope', 'LandContour', 'Condition1', 'Condition2',
+            'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Foundation', 'PavedDrive'):
+        train_data[col] = label_encoder.fit_transform(train_data[col])
+        test_data[col] = label_encoder.fit_transform(test_data[col])
 
     # Now, we select the numerical data from dataset
     # These numerical data include the data that we encoded (categorical of old)
@@ -139,22 +46,23 @@ def processing(train_data, test_data):
 
     # Now, we impute the data for numerical ones
 
-    num_train['LotFrontage'].replace(to_replace=np.nan, value=int(num_train['LotFrontage'].mean()), inplace=True)
-    num_train['GarageYrBlt'].replace(to_replace=np.nan, value=int(num_train['GarageYrBlt'].mean()), inplace=True)
-    num_train['MasVnrArea'].replace(to_replace=np.nan, value=0, inplace=True)
+    num_train['LotFrontage'] = num_train['LotFrontage'].fillna(num_train['LotFrontage'].mean())
+    num_train['GarageYrBlt'] = num_train['GarageYrBlt'].fillna(num_train['GarageYrBlt'].mean())
+    num_train['MasVnrArea'] = num_train['MasVnrArea'].fillna(0)
 
-    # Burada aynılarını neden train için yapmadık?
+    num_test['LotFrontage'] = num_test['LotFrontage'].fillna(num_test['LotFrontage'].mean())
+    num_test['GarageYrBlt'] = num_test['GarageYrBlt'].fillna(num_test['GarageYrBlt'].mean())
+    num_test['MasVnrArea'] = num_test['MasVnrArea'].fillna(0)
+    num_test['BsmtFinSF1'] = num_test['BsmtFinSF1'].fillna(num_test['BsmtFinSF1'].mean())
+    num_test['BsmtFinSF2'] = num_test['BsmtFinSF2'].fillna(num_test['BsmtFinSF2'].mean())
+    num_test['BsmtUnfSF'] = num_test['BsmtUnfSF'].fillna(num_test['BsmtUnfSF'].mean())
+    num_test['TotalBsmtSF'] = num_test['TotalBsmtSF'].fillna(num_test['TotalBsmtSF'].mean())
+    num_test['BsmtFullBath'] = num_test['BsmtFullBath'].fillna(num_test['BsmtFullBath'].mean())
+    num_test['BsmtHalfBath'] = num_test['BsmtHalfBath'].fillna(num_test['BsmtHalfBath'].mean())
+    num_test['GarageYrBlt'] = num_test['GarageYrBlt'].fillna(num_test['GarageYrBlt'].mean())
+    num_test['GarageCars'] = num_test['GarageCars'].fillna(num_test['GarageCars'].mean())
+    num_test['GarageArea'] = num_test['GarageArea'].fillna(num_test['GarageArea'].mean())
 
-    num_test['LotFrontage'].replace(to_replace=np.nan, value=int(num_test['LotFrontage'].mean()), inplace=True)
-    num_test['MasVnrArea'].replace(to_replace=np.nan, value=0, inplace=True)
-    num_test['BsmtFinSF1'].replace(to_replace=np.nan, value=int(num_test['BsmtFinSF1'].mean()), inplace=True)
-    num_test['BsmtFinSF2'].replace(to_replace=np.nan, value=int(num_test['BsmtFinSF2'].mean()), inplace=True)
-    num_test['BsmtUnfSF'].replace(to_replace=np.nan, value=int(num_test['BsmtUnfSF'].mean()), inplace=True)
-    num_test['TotalBsmtSF'].replace(to_replace=np.nan, value=int(num_test['TotalBsmtSF'].mean()), inplace=True)
-    num_test['BsmtFullBath'].replace(to_replace=np.nan, value=int(num_test['BsmtFullBath'].mean()), inplace=True)
-    num_test['BsmtHalfBath'].replace(to_replace=np.nan, value=int(num_test['BsmtHalfBath'].mean()), inplace=True)
-    num_test['GarageYrBlt'].replace(to_replace=np.nan, value=int(num_test['GarageYrBlt'].mean()), inplace=True)
-    num_test['GarageCars'].replace(to_replace=np.nan, value=int(num_test['GarageCars'].mean()), inplace=True)
-    num_test['GarageArea'].replace(to_replace=np.nan, value=int(num_test['GarageArea'].mean()), inplace=True)
+    print(num_test.shape[1])
 
     return num_train, num_test
