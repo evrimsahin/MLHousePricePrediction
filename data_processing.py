@@ -24,7 +24,7 @@ def processing(train_data, test_data):
 
     for col in ('GarageType', 'GarageFinish', 'GarageQual', 'GarageCond', 'FireplaceQu', 'BsmtExposure', 'BsmtFinType1',
                 'BsmtFinType2', 'BsmtCond', 'BsmtQual', 'MasVnrType', 'Electrical', 'SaleType', 'MSZoning', 'Utilities',
-                'Functional', 'Exterior2nd', 'Exterior1st', 'KitchenQual'):
+                'Functional', 'Exterior2nd', 'Exterior1st', 'KitchenQual', 'MSSubClass'):
         train_data[col] = train_data[col].fillna('None')
         train_data[col] = label_encoder.fit_transform(train_data[col])
         test_data[col] = test_data[col].fillna('None')
@@ -59,7 +59,6 @@ def processing(train_data, test_data):
     num_test['TotalBsmtSF'] = num_test['TotalBsmtSF'].fillna(num_test['TotalBsmtSF'].mean())
     num_test['BsmtFullBath'] = num_test['BsmtFullBath'].fillna(num_test['BsmtFullBath'].mean())
     num_test['BsmtHalfBath'] = num_test['BsmtHalfBath'].fillna(num_test['BsmtHalfBath'].mean())
-    num_test['GarageYrBlt'] = num_test['GarageYrBlt'].fillna(num_test['GarageYrBlt'].mean())
     num_test['GarageCars'] = num_test['GarageCars'].fillna(num_test['GarageCars'].mean())
     num_test['GarageArea'] = num_test['GarageArea'].fillna(num_test['GarageArea'].mean())
 
