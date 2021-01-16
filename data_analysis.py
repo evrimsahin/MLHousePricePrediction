@@ -5,7 +5,7 @@ from scipy.stats import norm
 from matplotlib import rcParams
 
 
-def visualization(df_train):
+def visualization(df_train, df_test):
     print(df_train['SalePrice'].describe())  # We’re going to predict the SalePrice column ($ USD)
 
     sns.set(style='whitegrid', palette='muted', font_scale=1.5)
@@ -71,15 +71,21 @@ def visualization(df_train):
 
     # Up to this point, we were exploring the data
 
-    # Do we have missing data?
+    # Do we have missing data - train?
 
     total = df_train.isnull().sum().sort_values(ascending=False)
     percent = (df_train.isnull().sum() / df_train.isnull().count()).sort_values(ascending=False)
     missing_data = pd.concat([total, percent], axis=1, keys=['Total', 'Percent'])
-
     missing_data = missing_data[missing_data.Total > 0]
 
     print(missing_data)
+
+    total_test = df_test.isnull().sum().sort_values(ascending=False)
+    percent_test = (df_test.isnull().sum() / df_test.isnull().count()).sort_values(ascending=False)
+    missing_data_test = pd.concat([total_test, percent_test], axis=1, keys=['TotalTest', 'PercentTest'])
+    missing_data_test = missing_data_test[missing_data_test.TotalTest > 0]
+
+    print(missing_data_test)
 
     # Then, we will impute the missing data
 

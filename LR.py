@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+
 def LR(num_train, num_test, test_data):
     X = num_train.drop(['Id', 'SalePrice'], axis=1)
     y = num_train['SalePrice']
