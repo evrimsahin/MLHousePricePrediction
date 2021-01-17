@@ -22,4 +22,4 @@ def LR(num_train, num_test, test_data):
     Submission.set_index('Id', inplace=True)
     Submission.head()
     Submission.to_csv('Submission.csv')
-    print("The MSE score on the Train set is:\t{:0.3f}".format(np.sqrt(mean_squared_log_error(y_test, pred2))))
+    print("The RMSLE score on the Train set is:\t{:0.3f}".format(np.sqrt(mean_squared_log_error(y_test, pred2))))
